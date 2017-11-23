@@ -47,6 +47,7 @@
                     document.getElementById("selectedWords").innerHTML = tmp
                 }
                 else{
+                    document.getElementById("selectedWords").innerHTML = "";
                     words +=  event.target.textContent;
                     tmp = "You selected: " + words
                     document.getElementById("selectedWords").innerHTML = tmp
@@ -385,7 +386,7 @@
                                 <!-- Section title -->
                                 <h2 class="title -black">Prediction</h2>
 
-                                <span class="subtitle h3 -yellow">Let's witness the magic!</span>
+                                <span class="subtitle h3 -black">Let's witness the magic !</span>
 
                             </div>
 
@@ -480,9 +481,10 @@
                     <div class ="row">
 
                         <div class="col-sm-12" align="center" style="margin-top:-20%">
-                            <p id="selectedWords" class="lead"></p>
+                            <p id="selectedWords" class="lead" style="margin-top: -2%;"></p>
 
-                            <button type="button" width="150px" class="btn btn-warning" onclick="showBarChart()">I can't wait :)</button>
+                            <a href="#ShowMLVisualization" class="btn btn-warning smoothScroll"  onclick="showBarChart()">I can't wait :)</a>
+
                         </div>
 
                     </div>
@@ -502,6 +504,9 @@
                                     var div = d3.select("#ShowMLVisualization").append("div").attr("class", "toolTip");
 
                                     var jsonStr = "http://127.0.0.1:8004/getMLBarChart/" + words;
+
+                                    words = "";
+                                    tmp = "";
 
                                     var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
@@ -627,7 +632,7 @@
                                         // text label for the y axis
                                           svg.append("text")
                                               .attr("transform", "rotate(-90)")
-                                              .attr("y", 0 - margin.left)
+                                              .attr("y",0)
                                               .attr("x",0 - (height / 2))
                                               .attr("dy", "1em")
                                               .style("text-anchor", "middle")
@@ -646,7 +651,6 @@
                                     });
 
                                 }
-
 
                             </script>
 
@@ -1214,9 +1218,9 @@
 
         <div class="container">
 
-            <div class="row">
+            <div class="row" style="margin-left:-200px; margin-top: -170px">
 
-                <div id="wineDropDown">
+                <div id="wineDropDown" class="lead">
 
                     Select top number of wines to view :
 
@@ -1225,8 +1229,6 @@
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="30">30</option>
-                        <option value="40">40</option>
-                        <option value="50">50</option>
                     </select>
 
                     &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
@@ -1335,7 +1337,7 @@
 
                 </script>
 
-                <div id='dashboard'>
+                <div id='dashboard' style="width: 1200px; margin-left:-60px">
                 </div>
 
                 <script>
@@ -1356,7 +1358,25 @@
                             var hGsvg = d3.select(id).append("svg")
                                 .attr("width", hGDim.w + hGDim.l + hGDim.r).attr("id", "histoGramDashboard")
                                 .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
-                                .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+                                .attr("transform", "translate(" + hGDim.l+40 + "," + hGDim.t + ")");
+
+                            // text label for the y axis
+                              hGsvg.append("text")
+                                  .attr("transform", "rotate(-90)")
+                                  .attr("y",-25)
+                                  .attr("x",-100)
+                                  .attr("dy", "1em")
+                                  .style("text-anchor", "middle")
+                                  .attr("class","lead")
+                                  .text("Price");
+
+                            // text label for the x axis
+                              hGsvg.append("text")
+                                  .style("text-anchor", "middle")
+                                  .attr("class","lead")
+                                  .attr("y",290)
+                                  .attr("x",400)
+                                  .text("Countries");
 
                             // create function for x-axis mapping.
                             var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
@@ -1384,7 +1404,7 @@
                                 .attr("height", function(d) { return hGDim.h - y(d[1]); })
                                 .attr('fill',barColor)
                                 .on("mouseover",mouseover)// mouseover is defined below.
-                                .on("mouseout",mouseout)// mouseout is defined below.
+                                .on("mouseout",mouseout)// mouseout is defined below
                                 .on("click", function(d)
                                 {
                                     displayCollapsibleTree(d[0], wineName)
@@ -1546,12 +1566,6 @@
 
                 <div id="dvcollapsibletree">
 
-                    <p id="chart"></p>
-
-                    <div class="col-md-23 legend" style="margin-top:-10px;margin-bottom:0px;">
-                        <strong>Title Legend</strong>
-                        <div id="legend"></div>
-                    </div>
 
                     <script>
 
@@ -1588,6 +1602,8 @@
                                     .attr("id","SVG_collapsibletree")
                                     .append("g")
                                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
 
                                 var opts = {
                                     lines: 13, // The number of lines to draw

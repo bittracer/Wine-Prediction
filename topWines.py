@@ -178,7 +178,7 @@ def getCollapsibleTree(Country, wineName):
                     avg_price = avg_price_list.mean()
                 if avg_price > 0:
                     element["children"].append(
-                        {"name": winery['index'], "type": type, "children": [{"name": avg_price, "value": winery[0]}]})
+                        {"name": winery['index'] , "type": type, "children": [{"name": avg_price, "value": winery[0]}]})
                 else:
                     element["children"].append({"name": winery['index'], "type": type, "children": []})
 
