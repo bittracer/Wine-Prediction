@@ -10,7 +10,7 @@ from sklearn.naive_bayes import MultinomialNB
 
 app = Flask(__name__)
 
-df = pd.read_csv("/Users/tushar/Desktop/DAL/VisualAnalytics/Project/V_bharat/wine.csv")
+df = pd.read_csv("/Users/bharatjain/Desktop/Visual_Analytics/wine.csv")
 df['variety'] = df['variety'].str.replace(r'[^\x00-\x7f]', r'')
 df.drop(df.columns[[0]], axis=1, inplace=True)
 dedupped_df = df.drop_duplicates(subset='description')
