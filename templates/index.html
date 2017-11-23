@@ -14,6 +14,10 @@
     <meta name="description" content="Free singlepage web template created by GraphBerry">
     <meta name="keywords" content="HTML5, Bootstrap 3, CSS3, javascript, PHP, Responsive, Mobile">
     <meta name="author" content="GraphBerry.com"/>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+
+    <script src="../static/js/d3cloud.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Fonts -->
@@ -23,18 +27,17 @@
     <link rel="stylesheet" type="text/css" href="../static/css/style.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.js"></script>
     {#    <script src="../static/js/d3.v3.min.js"></script>#}
-    <script src="https://d3js.org/d3.v3.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="../static/js/d3cloud.js"></script>
+
 
     {#    <script src="../static/js/d3.layout.cloud.js"></script>#}
+
 
     <script>
         var words=""
         var tmp=""
         $(document).click(function( event ) {
             if(event.target.parentElement.className.baseVal == "wordcloud"){
-                document.getElementById("actualword").innerText += event.target.textContent + '\xa0\xa0';
+{#                document.getElementById("actualword").innerText += event.target.textContent + '\xa0\xa0';#}
                 if(words!="")
                 {
                     words+= " " + event.target.textContent;
@@ -207,9 +210,7 @@
             color: white;
         }
 
-        body{
-            width:1400px;
-        }
+
 
         path {  stroke: #fff; }
         path:hover {  opacity:0.9; }
@@ -389,6 +390,7 @@
                         </div> <!-- /.row -->
 
                         <div class="row box-container" id="bagword" align="center">
+
                             <script>
 
                                 var checkif_svg_exists = document.getElementById('bagg');
@@ -489,7 +491,7 @@
                     <div >
 
 
-                        <div id="ShowMLVisualization" align="center">
+                        <div id="ShowMLVisualization" align="center" style="margin-top:-10%">
                             <script type="text/javascript">
                                 function showBarChart(){
 
@@ -1217,7 +1219,6 @@
 
             <div id="datavisualization" style="display: block;">
 
-                <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
                 <script>
 
                     function displaytopwines()
@@ -1319,7 +1320,6 @@
                 <div id='dashboard'>
                 </div>
 
-                <script src="http://d3js.org/d3.v3.min.js"></script>
                 <script>
 
                     function dashboard(id, fData, wineName){
@@ -1871,7 +1871,6 @@
 </footer>
 
 <!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../static/js/libs/smooth-scroll.min.js"></script>
 <script type="text/javascript" src="../static/js/libs/modernizr.mq.js"></script>
 
