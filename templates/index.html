@@ -264,7 +264,7 @@
 
             <span class="h1 -yellow">We help you to choose your wine!</span>
 
-            <a href="#about" class="button">Explore</a>
+            <a href="#about" class="button smoothScroll">Explore</a>
 
             <a href="#about" class="chevron-down smoothScroll">
                 <img class="icon" src="../static/img/chevron_down_white.svg" title="Scroll down" alt="Chevron pointing downwards">
@@ -303,7 +303,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a class="smoothScroll" href="#home">Home <span class="sr-only">(current)</span></a></li>
                         <li><a class="smoothScroll" href="#about">About us</a></li>
-                        <li><a class="smoothScroll" href="#portfolio">Prediction</a></li>
+                        <li><a class="smoothScroll" href="#Prediction">Prediction</a></li>
                         <li><a class="smoothScroll" href="#clients">Insights</a></li>
                     </ul>
 
@@ -371,7 +371,7 @@
                 </div>
             </div>
 
-                <section id="portfolio" class="portfolio">
+                <section id="Prediction" class="Prediction">
 
                     <div class="container">
 
@@ -423,6 +423,7 @@
                                         .attr("width", width + margin.left + margin.right)
                                         .attr("height", height + margin.top + margin.bottom)
                                         .attr("id","bagg")
+                                        .attr("transform","translate(-40,-250)")
                                         .append("g")
                                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -478,7 +479,7 @@
 
                     <div class ="row">
 
-                        <div class="col-sm-12" align="center">
+                        <div class="col-sm-12" align="center" style="margin-top:-20%">
                             <p id="selectedWords"></p>
                             <button type="button" width="150px" class="btn btn-warning" onclick="showBarChart()">I can't wait :)</button>
                         </div>
@@ -643,7 +644,7 @@
                 <span class="sr-only">Load more...</span>
             </a>
         </div>
-    </section> <!-- /.portfolio -->
+    </section> <!-- /.Prediction -->
 
     {#    <section id="clients">#}
     {##}
