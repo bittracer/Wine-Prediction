@@ -1357,7 +1357,7 @@
                             //create svg for histogram.
                             var hGsvg = d3.select(id).append("svg")
                                 .attr("width", hGDim.w + hGDim.l + hGDim.r).attr("id", "histoGramDashboard")
-                                .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
+                                .attr("height", hGDim.h + hGDim.t + hGDim.b + 10).append("g")
                                 .attr("transform", "translate(" + hGDim.l+40 + "," + hGDim.t + ")");
 
                             // text label for the y axis
