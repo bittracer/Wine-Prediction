@@ -1,0 +1,1327 @@
+<!--
+ * A Design by GraphBerry
+ * Author: GraphBerry
+ * Author URL: http://graphberry.com
+ * License: http://graphberry.com/pages/license
+-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wine Predictor | Team Productive</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Free singlepage web template created by GraphBerry">
+    <meta name="keywords" content="HTML5, Bootstrap 3, CSS3, javascript, PHP, Responsive, Mobile">
+    <meta name="author" content="GraphBerry.com"/>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400" rel="stylesheet">
+    <!-- Styles -->
+    <link rel="stylesheet" type="text/css" href="../static/css/yellowmoon-font.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.js"></script>
+    <script src="../static/js/d3.v3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="../static/js/d3.layout.cloud.js"></script>
+
+    <script>
+        var words=""
+        $(document).click(function( event ) {
+            if(event.target.parentElement.className.baseVal == "wordcloud"){
+                words += " "+ event.target.textContent;
+            }
+        });
+    </script>
+    <style>
+        .btn {
+            width: 150px;
+        }
+        .bar{
+            fill: steelblue;
+        }
+
+        .bar:hover{
+            fill: brown;
+        }
+
+        .axis {
+            font: 10px sans-serif;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .node {
+            cursor: pointer;
+        }
+
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
+
+        #wineDropDown {
+            padding-top:90px;
+            margin-left: 350px;
+        }
+
+        .node text {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
+
+        #div1 {
+            width:100%;
+            margin:0 auto;
+            overflow:hidden;
+            float:left;
+            height:60px;
+            background:#07af76;
+            padding-bottom:20px;
+        }
+
+
+        #machine {
+            width : 100%;
+            margin-top:-50px;
+        }
+
+        #ml {
+            margin-left: 400px;
+            font-size:25px;
+            text-decoration : none;
+        }
+
+        #dv {
+            margin-left : 50px;
+            font-size:25px;
+            text-decoration : none;
+        }
+
+
+        #ml:hover {
+            background:white;
+            margin-top: -70px;
+            transition: linear all 0.50s;
+        }
+
+        #dv:hover {
+            background:white;
+            transition: linear all 0.50s;
+        }
+
+        #barchart {
+            float : left;
+            width : 30%;
+
+        }
+
+        #dvcollapsibletree {
+            float : left;
+            width : 70%;
+        }
+
+        .toolTip {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            position: absolute;
+            display: none;
+            width: auto;
+            height: auto;
+            background: none repeat scroll 0 0 white;
+            border: 0 none;
+            border-radius: 8px 8px 8px 8px;
+            box-shadow: -3px 3px 15px #888888;
+            color: black;
+            font: 12px sans-serif;
+            padding: 5px;
+            text-align: center;
+        }
+
+        text {
+            font: 10px sans-serif;
+            color: white;
+        }
+        text.value {
+            font-size: 80%;
+            fill: white;
+        }
+
+        .axisHorizontal path{
+            fill: none;
+        }
+
+        .axisHorizontal .tick line {
+            stroke-width: 1;
+            stroke: rgba(0, 0, 0, 0.2);
+        }
+
+        #winecolor {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #winecolor td, #winecolor th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #winecolor tr:nth-child(even){background-color: #f2f2f2;}
+
+        #winecolor tr:hover {background-color: #ddd;}
+
+        #winecolor th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        body{
+            width:1400px;
+        }
+
+        path {  stroke: #fff; }
+        path:hover {  opacity:0.9; }
+        rect:hover {  fill:blue; }
+        .axis {  font: 10px sans-serif; }
+        .legend tr{    border-bottom:1px solid grey; }
+        .legend tr:first-child{    border-top:1px solid grey; }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: #000;
+            shape-rendering: crispEdges;
+        }
+
+        .x.axis path {  display: none; }
+        .legend{
+            margin-bottom:60px;
+            margin-left:10px;
+            display:inline-block;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+        .legend td{
+            padding:4px 5px;
+            vertical-align:bottom;
+        }
+        .legendFreq, .legendPerc{
+            align:right;
+            width:50px;
+        }
+
+    </style>
+</head>
+<body>
+
+<header id="header">
+
+    <!-- Section title -->
+    <h1 class="sr-only">YellowMoon | Home page</h1>
+
+</header>
+
+<main>
+
+    <section id="home" class="home">
+
+        <!-- Section title -->
+        <h2 class="sr-only">Home</h2>
+
+        <div class="l-align-both">
+
+            <span class="h1 -yellow">We help you to choose your wine!</span>
+
+            <a href="javascript:void(0)" class="button">Explore</a>
+
+            <a href="#about" class="chevron-down smoothScroll">
+                <img class="icon" src="../static/img/chevron_down_white.svg" title="Scroll down" alt="Chevron pointing downwards">
+                <span class="sr-only">Scroll down</span>
+            </a>
+
+        </div>
+
+    </section> <!-- /.home -->
+
+    <div class="nav-container">
+
+        <nav id="main-navigation" class="navbar navbar-default">
+            <!-- Section title -->
+            <h2 class="sr-only">Main navigation</h2>
+
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand smoothScroll" href="#home">
+                        <span class="h1 -yellow">Team Productive</span>
+                        <!--<img class="logo" src="img/logo/yellowmoon_logo_02.svg" title="YellowMoon Logo" alt="Cartoon illustration of the moon and brand title">-->
+                        <span class="sr-only">YellowMoon Logo</span>
+                    </a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div id="main-navbar" class="collapse navbar-collapse">
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="active"><a class="smoothScroll" href="#home">Home <span class="sr-only">(current)</span></a></li>
+                        <li><a class="smoothScroll" href="#about">About us</a></li>
+                        <li><a class="smoothScroll" href="#portfolio">Portfolio</a></li>
+                        <li><a class="smoothScroll" href="#clients">Clients</a></li>
+                        <li><a class="smoothScroll" href="#contact">Contact</a></li>
+                    </ul>
+
+                </div> <!-- /.navbar-collapse -->
+
+            </div> <!-- /.container -->
+
+        </nav> <!-- /.navbar -->
+
+    </div> <!-- /.nav-container -->
+
+    <section id="about" class="about">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-8 col-md-offset-2">
+
+                    <!-- Section title -->
+                    <h2 class="title -black">About us</h2>
+
+                    <span class="subtitle h3 -black">We help you to choose your wine based on the description you provide.</span>
+
+                </div>
+
+            </div> <!-- /.row -->
+
+            <div class="row box-container">
+
+                <div class="col-sm-4">
+
+                    <div class="about-box">
+
+                        <h3 class="title -one -black">We take your description</h3>
+
+                        <p class="desc">Let us know all the properties you are looking for in a wine!</p>
+
+                    </div> <!-- /.about-box -->
+
+                </div>
+
+                <div class="col-sm-4">
+
+                    <div class="about-box">
+
+                        <h3 class="title -two -black">Perform the analysis</h3>
+
+                        <p class="desc">We will do all the hard work that is required to give you the suggestion!</p>
+
+                    </div> <!-- /.about-box -->
+
+                </div>
+
+                <div class="col-sm-4">
+
+                    <div class="about-box">
+
+                        <h3 class="title -three -black">Here you go!</h3>
+
+                        <p class="desc">Finally, we suggest you some wines based on our experience!</p>
+
+                    </div> <!-- /.about-box -->
+
+                </div>
+
+                <section id="portfolio" class="portfolio">
+
+                    <div class="container">
+
+                        <div class="row">
+
+                            <div class="col-md-8 col-md-offset-2">
+
+                                <!-- Section title -->
+                                <h2 class="title -black">Portfolio</h2>
+
+                                <span class="subtitle h3 -yellow">When we are bored we make some of these</span>
+
+                            </div>
+
+                        </div> <!-- /.row -->
+
+                        <div class="row box-container" id="bagword">
+                            <script>
+
+                                 var checkif_svg_exists = document.getElementById('bagg');
+                                    if (checkif_svg_exists != undefined || checkif_svg_exists != null)
+                                    {
+                                        d3.selectAll("#bagg").remove();
+                                    }
+
+                                var margin = {top: 20, right: 20, bottom: 40, left: 20},
+                                    width = 960 - margin.left - margin.right,
+                                    height = 500 - margin.top - margin.bottom;
+
+                                d3.csv("../static/data.csv", function(error, data) {
+
+                                    var categories = d3.keys(d3.nest().key(function(d) { return d.category; }).map(data));
+                                    var color = d3.scale.ordinal().range(["#66c2a5","#fc8d62","#8da0cb","#e78ac3","#a6d854"]);
+                                    var fontSize = d3.scale.pow().exponent(5).domain([0,1]).range([10,80]);
+
+                                    var layout = d3.layout.cloud()
+                                        .timeInterval(10)
+                                        .size([width, height])
+                                        .words(data)
+                                        .rotate(function(d) { return 0; })
+                                        .font('monospace')
+                                        .fontSize(function(d,i) { return fontSize(Math.random()); })
+                                        .text(function(d) { return d.password; })
+                                        .spiral("archimedean")
+                                        .on("end", draw)
+                                        .start();
+
+                                    var svg = d3.select('#bagword').append("svg")
+                                        .attr("width", width + margin.left + margin.right)
+                                        .attr("height", height + margin.top + margin.bottom)
+                                        .attr("id","bagg")
+                                        .append("g")
+                                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                                    var wordcloud = svg.append("g")
+                                        .attr('class','wordcloud')
+                                        .attr("transform", "translate(" + width/2 + "," + height/2 + ")");
+
+                                    var x0 = d3.scale.ordinal()
+                                        .rangeRoundBands([0, width], .1)
+                                        .domain(categories);
+
+                                    var xAxis = d3.svg.axis()
+                                        .scale(x0)
+                                        .orient("bottom");
+
+                                    svg.append("g")
+                                        .attr("class", "x axis")
+                                        .attr("transform", "translate(0," + height + ")")
+                                        .call(xAxis)
+                                        .selectAll('text')
+                                        .style('font-size','20px')
+                                        .style('fill',function(d) { return color(d); })
+                                        .style('font','sans-serif');
+
+                                    function draw(words) {
+                                        wordcloud.selectAll("text")
+                                            .data(words)
+                                            .enter().append("text")
+                                            .attr('class','word')
+                                            .style("font-size", function(d) { return d.size + "px"; })
+                                            .style("font-family", function(d) { return d.font; })
+                                            .style("fill", function(d) {
+                                                var paringObject = data.filter(function(obj) { return obj.password === d.text});
+                                                return color(paringObject[0].category);
+                                            })
+                                            .attr("text-anchor", "middle")
+                                            .attr("transform", function(d) { return "translate(" + [d.x, d.y] + ")rotate(" + d.rotate + ")"; })
+                                            .text(function(d) { return d.text; });
+                                    };
+
+                                });
+
+                            </script>
+
+
+                        </div>
+
+                    </div> <!-- /.row -->
+
+                    <div >
+
+
+                        <div id="ShowMLVisualization" align="center">
+                            <script type="text/javascript">
+                                function showBarChart(){
+                                    var finalText="";
+                                    if (document.querySelector('input[name="color"]:checked')!=null) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="color"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="color"]:checked').value;}
+                                    }
+                                    if (document.querySelector('input[name="fragrance"]:checked')!=null) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="fragrance"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="fragrance"]:checked').value;}
+                                    }
+                                    if (document.getElementById('taste1').checked==true) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="taste1"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="taste1"]:checked').value;}
+                                    }
+                                    if (document.getElementById('taste2').checked==true) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="taste2"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="taste2"]:checked').value;}
+                                    }
+                                    if (document.getElementById('taste3').checked==true) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="taste3"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="taste3"]:checked').value;}
+                                    }
+                                    if (document.getElementById('taste4').checked==true) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="taste4"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="taste4"]:checked').value;}
+                                    }
+                                    if (document.getElementById('taste5').checked==true) {
+                                        if(finalText!=""){ finalText = finalText + " " + document.querySelector('input[name="taste5"]:checked').value;}
+                                        else{finalText = document.querySelector('input[name="taste5"]:checked').value;}
+                                    }
+                                    if (document.getElementById('txtWinesChar').value!="") {
+                                        if(finalText!=""){ finalText = finalText + " " + document.getElementById('txtWinesChar').value;}
+                                        else{finalText = document.getElementById('txtWinesChar').value;}
+                                    }
+
+                                    var checkif_svg_exists = document.getElementById('SVG_MLbarchart');
+                                    if (checkif_svg_exists != undefined || checkif_svg_exists != null)
+                                    {
+                                        d3.selectAll("#SVG_MLbarchart").remove();
+                                    }
+                                    var div = d3.select("#ShowMLVisualization").append("div").attr("class", "toolTip");
+
+                                    console.log(finalText);
+
+                                    var jsonStr = "http://127.0.0.1:8004/getMLBarChart/" + finalText;
+
+                                    var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+                                    var opts = {
+                                        lines: 13, // The number of lines to draw
+                                        length: 28, // The length of each line
+                                        width: 14, // The line thickness
+                                        radius: 42, // The radius of the inner circle
+                                        scale: 1, // Scales overall size of the spinner
+                                        corners: 1, // Corner roundness (0..1)
+                                        color: '#0b0707', // #rgb or #rrggbb or array of colors
+                                        opacity: 0.25, // Opacity of the lines
+                                        rotate: 0, // The rotation offset
+                                        direction: 1, // 1: clockwise, -1: counterclockwise
+                                        speed: 1, // Rounds per second
+                                        trail: 60, // Afterglow percentage
+                                        fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+                                        zIndex: 2e9, // The z-index (defaults to 2000000000)
+                                        className: 'spinner', // The CSS class to assign to the spinner
+                                        top: '50%', // Top position relative to parent
+                                        left: '50%', // Left position relative to parent
+                                        shadow: false, // Whether to render a shadow
+                                        position: 'absolute' // Element positioning
+                                    };
+                                    // trigger loader
+                                    var target = document.getElementById('ShowMLVisualization');
+                                    var spinner = new Spinner(opts).spin(target);
+
+                                    d3.json(jsonStr, function(error, data) {
+                                        if (error) throw error;
+
+                                        spinner.stop();
+
+                                        data.forEach(function(d) {
+                                            d.wine = d.wine;
+                                            d.probability = +d.probability;
+                                        });
+                                        var axisMargin = 20,
+                                            margin = 40,
+                                            valueMargin = 4,
+                                            width = 700,
+                                            height = 500,
+                                            barHeight = (height-axisMargin-margin*2)* 0.4/data.length,
+                                            barPadding = (height-axisMargin-margin*2)*0.6/data.length,
+                                            data, bar, svg, scale, xAxis, labelWidth = 0;
+
+                                        max = d3.max(data, function(d) { return d.probability; });
+
+                                        svg = d3.select('#ShowMLVisualization')
+                                            .append("svg")
+                                            .attr("width", width)
+                                            .attr("height", height)
+                                            .attr("id","SVG_MLbarchart");
+
+                                        bar = svg.selectAll("g")
+                                            .data(data)
+                                            .enter()
+                                            .append("g");
+
+                                        bar.attr("class", "bar")
+                                            .attr("cx",0)
+                                            .attr("transform", function(d, i) {
+                                                return "translate(" + margin + "," + (i * (barHeight + barPadding) + barPadding) + ")";
+                                            });
+
+                                        bar.append("text")
+                                            .attr("class", "label")
+                                            .attr("y", barHeight / 2)
+                                            .attr("dy", ".35em") //vertical align middle
+                                            .text(function(d){
+                                                return d.wine;
+                                            }).each(function() {
+                                            labelWidth = Math.ceil(Math.max(labelWidth, this.getBBox().width));
+                                        });
+
+                                        scale = d3.scale.linear()
+                                            .domain([0, max])
+                                            .range([0, width - margin*2 - labelWidth]);
+
+                                        xAxis = d3.svg.axis()
+                                            .scale(scale)
+                                            .tickSize(-height + 2*margin + axisMargin)
+                                            .orient("bottom");
+
+                                        bar.append("rect")
+                                            .attr("transform", "translate("+labelWidth+", 0)")
+                                            .attr("height", barHeight)
+                                            .attr("width", function(d){
+                                                return scale(d.probability);
+                                            });
+
+                                        bar.append("text")
+                                            .attr("class", "value")
+                                            .attr("y", barHeight / 2)
+                                            .attr("dx", -valueMargin + labelWidth) //margin right
+                                            .attr("dy", ".35em") //vertical align middle
+                                            .attr("text-anchor", "end")
+                                            .text(function(d){
+                                                return (d.probability+"%");
+                                            })
+                                            .attr("x", function(d){
+                                                var width = this.getBBox().width;
+                                                return Math.max(width + valueMargin, scale(d.probability));
+                                            });
+
+                                        bar
+                                            .on("mousemove", function(d){
+                                                div.style("left", d3.event.pageX+10+"px");
+                                                div.style("top", d3.event.pageY-25+"px");
+                                                div.style("display", "inline-block");
+                                                div.html((d.wine)+"<br>"+(d.probability)+"%");
+                                            });
+                                        bar
+                                            .on("mouseout", function(d){
+                                                div.style("display", "none");
+                                            });
+
+                                        svg.insert("g",":first-child")
+                                            .attr("class", "axisHorizontal")
+                                            .attr("transform", "translate(" + (margin + labelWidth) + ","+ (height - axisMargin - margin)+")")
+                                            .call(xAxis);
+
+                                    });
+
+                                }
+
+
+                            </script>
+
+                        </div>
+
+
+                    </div> <!-- /.row -->
+
+            </div> <!-- /.container -->
+
+            <p class="load-more -yellow text-center">Oh...We have more of these</p>
+
+            <a href="javascript:void(0)" class="chevron-down">
+                <img class="icon" src="../static/img/chevron_down_black.svg" title="Load more..." alt="Chevron pointing downwards">
+                <span class="sr-only">Load more...</span>
+            </a>
+
+    </section> <!-- /.portfolio -->
+
+    <section id="clients">
+
+        <div id="datavisualization" style="display: block;">
+            <br>
+
+            <div id="wineDropDown">
+                Select top number of wines to view :
+                <select id="ddlViewBy" onChange="displaytopwines()">
+                    <option value="select"  selected>select</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40">40</option>
+                    <option value="50">50</option>
+                </select>
+
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+
+            </div>
+
+            <br>
+            <script>
+
+                function displaytopwines()
+                {
+                    var elem = document.getElementById('winesList');
+                    var elem1 = document.getElementById('text');
+                    if (elem !=null)
+                    {
+                        elem.parentNode.removeChild(elem);
+                    }
+
+                    if(elem1 != null){
+                        elem1.parentNode.removeChild(elem1);
+                    }
+
+                    var elem = document.getElementById('SVG_collapsibletree');
+                    var barChartTemp = document.getElementById('SVG_barchart');
+                    if (elem !=null || barChartTemp != null)
+                    {
+                        elem.parentNode.removeChild(elem);
+                        barChartTemp.parentNode.removeChild(barChartTemp);
+                    }
+
+                    var ddlView = document.getElementById("ddlViewBy");
+                    if (ddlView.value!="select"){
+
+                        var jsonStr= "http://127.0.0.1:8004/getTopWines/" + ddlView.value;
+                        // load the data
+                        d3.json(jsonStr, function(error, data) {
+                            //div reference
+                            var div_Visusalization = document.getElementById("wineDropDown");
+
+                            var span     = document.createElement("span");
+                            span.id="text";
+                            var oText = document.createTextNode("Top " + ddlView.value + " Elements: ");
+                            span.appendChild(oText);
+                            div_Visusalization.appendChild(span);
+
+                            // create elements <table> and a <tbody>
+                            var select     = document.createElement("select");
+                            select.id = "winesList";
+
+                            div_Visusalization.appendChild(select);
+
+
+                            //add columns
+                            for (var j = 0; j < data.winenames.length; j++) {
+
+                                if(j==0){
+                                    var option = document.createElement("option");
+                                    option.value = "select";
+                                    option.text = "select";
+                                    select.appendChild(option);
+                                }
+
+                                var option = document.createElement("option");
+                                option.value = data.winenames[j];
+                                option.text = data.winenames[j];
+                                select.appendChild(option);
+
+                            }
+
+                            select.setAttribute("onChange", "callBarChart(this)");
+                        });
+                    }
+                }
+
+                function callBarChart(obj){
+                    var selectedValue = document.getElementById("winesList");
+                    var width = 1200;
+                    var height = 400;
+                    if(selectedValue.options[selectedValue.selectedIndex].value != null && selectedValue.options[selectedValue.selectedIndex].value != "select"){
+                        var elem = document.getElementById('SVG_collapsibletree');
+                        var dash = document.getElementById('histoGramDashboard');
+                        var pie = document.getElementById('pieChartDashboard');
+                        var table = document.getElementById('tableDashboard');
+                        if (elem !=null)
+                        {
+                            elem.parentNode.removeChild(elem);
+                        }
+                        if(dash != null){
+                            dash.parentNode.removeChild(dash);
+                            pie.parentNode.removeChild(pie);
+                            table.parentNode.removeChild(table);
+                        }
+                        var wineName = selectedValue.options[selectedValue.selectedIndex].value;
+
+                        var freqData= "http://127.0.0.1:8004/getWineCountries/" + wineName;
+
+                        d3.json(freqData, function(error, data) {
+                            dashboard('#dashboard',data, wineName);
+                        });
+                    }
+                }
+
+            </script>
+
+            <div id='dashboard'>
+            </div>
+            <script>
+                function dashboard(id, fData, wineName){
+                    var barColor = 'steelblue';
+                    function segColor(c){ return {low:"#807dba", mid:"#e08214",high:"#41ab5d"}[c]; }
+                    // compute total for each state.
+                    fData.forEach(function(d){d.total=d.freq.low+d.freq.mid+d.freq.high;});
+
+                    // function to handle histogram.
+                    function histoGram(fD){
+                        var hG={},    hGDim = {t: 60, r: 0, b: 70, l: 0};
+                        hGDim.w = 800 - hGDim.l - hGDim.r,
+                            hGDim.h = 350 - hGDim.t - hGDim.b;
+
+                        //create svg for histogram.
+                        var hGsvg = d3.select(id).append("svg")
+                            .attr("width", hGDim.w + hGDim.l + hGDim.r).attr("id", "histoGramDashboard")
+                            .attr("height", hGDim.h + hGDim.t + hGDim.b).append("g")
+                            .attr("transform", "translate(" + hGDim.l + "," + hGDim.t + ")");
+
+                        // create function for x-axis mapping.
+                        var x = d3.scale.ordinal().rangeRoundBands([0, hGDim.w], 0.1)
+                            .domain(fD.map(function(d) {return d[0]; }));
+
+                        // Add x-axis to the histogram svg.
+                        hGsvg.append("g").attr("class", "x axis")
+                            .attr("transform", "translate(0," + hGDim.h + ")")
+                            .call(d3.svg.axis().scale(x).orient("bottom"))
+                            .selectAll("text").attr("transform", "rotate(70)").style("text-anchor", "start").attr("y",0).attr("x",9).attr("dy", ".35em");
+
+                        // Create function for y-axis map.
+                        var y = d3.scale.linear().range([hGDim.h, 0])
+                            .domain([0, d3.max(fD, function(d) { return d[1]; })]);
+
+                        // Create bars for histogram to contain rectangles and freq labels.
+                        var bars = hGsvg.selectAll(".bar").data(fD).enter()
+                            .append("g").attr("class", "bar");
+
+                        //create the rectangles.
+                        bars.append("rect")
+                            .attr("x", function(d) { return x(d[0]); })
+                            .attr("y", function(d) { return y(d[1]); })
+                            .attr("width", x.rangeBand())
+                            .attr("height", function(d) { return hGDim.h - y(d[1]); })
+                            .attr('fill',barColor)
+                            .on("mouseover",mouseover)// mouseover is defined below.
+                            .on("mouseout",mouseout)// mouseout is defined below.
+                            .on("click", function(d)
+                            {
+                                displayCollapsibleTree(d[0], wineName)
+                            });
+
+                        //Create the frequency labels above the rectangles.
+                        bars.append("text").text(function(d){ return d3.format(",")(d[1])})
+                            .attr("x", function(d) { return x(d[0])+x.rangeBand()/2; })
+                            .attr("y", function(d) { return y(d[1])-5; })
+                            .attr("text-anchor", "middle");
+
+                        function mouseover(d){  // utility function to be called on mouseover.
+                            // filter for selected state.
+                            var st = fData.filter(function(s){ return s.State == d[0];})[0],
+                                nD = d3.keys(st.freq).map(function(s){ return {type:s, freq:st.freq[s]};});
+
+                            // call update functions of pie-chart and legend.
+                            pC.update(nD);
+                            leg.update(nD);
+                        }
+
+                        function mouseout(d){    // utility function to be called on mouseout.
+                            // reset the pie-chart and legend.
+                            pC.update(tF);
+                            leg.update(tF);
+                        }
+
+                        // create function to update the bars. This will be used by pie-chart.
+                        hG.update = function(nD, color){
+                            // update the domain of the y-axis map to reflect change in frequencies.
+                            y.domain([0, d3.max(nD, function(d) { return d[1]; })]);
+
+                            // Attach the new data to the bars.
+                            var bars = hGsvg.selectAll(".bar").data(nD);
+
+                            // transition the height and color of rectangles.
+                            bars.select("rect").transition().duration(500)
+                                .attr("y", function(d) {return y(d[1]); })
+                                .attr("height", function(d) { return hGDim.h - y(d[1]); })
+                                .attr("fill", color);
+
+                            // transition the frequency labels location and change value.
+                            bars.select("text").transition().duration(500)
+                                .text(function(d){ return d3.format(",")(d[1])})
+                                .attr("y", function(d) {return y(d[1])-5; });
+                        };
+                        return hG;
+                    }
+
+                    // function to handle pieChart.
+                    function pieChart(pD){
+                        var pC ={},    pieDim ={w:200, h: 200};
+                        pieDim.r = Math.min(pieDim.w, pieDim.h) / 2;
+
+                        // create svg for pie chart.
+                        var piesvg = d3.select(id).append("svg").attr("id","pieChartDashboard")
+                            .attr("width", pieDim.w).attr("height", pieDim.h+50).append("g")
+                            .attr("transform", "translate("+pieDim.w/2+","+((pieDim.h/2))+")")
+                        ;
+
+                        // create function to draw the arcs of the pie slices.
+                        var arc = d3.svg.arc().outerRadius(pieDim.r - 10).innerRadius(0);
+
+                        // create a function to compute the pie slice angles.
+                        var pie = d3.layout.pie().sort(null).value(function(d) { return d.freq; });
+
+                        // Draw the pie slices.
+                        piesvg.selectAll("path").data(pie(pD)).enter().append("path").attr("d", arc)
+                            .each(function(d) { this._current = d; })
+                            .style("fill", function(d) { return segColor(d.data.type); })
+                            .on("mouseover",mouseover).on("mouseout",mouseout);
+
+                        // create function to update pie-chart. This will be used by histogram.
+                        pC.update = function(nD){
+                            piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
+                                .attrTween("d", arcTween);
+                        };
+                        // Utility function to be called on mouseover a pie slice.
+                        function mouseover(d){
+                            // call the update function of histogram with new data.
+                            hG.update(fData.map(function(v){
+                                return [v.State,v.freq[d.data.type]];}),segColor(d.data.type));
+                        }
+                        //Utility function to be called on mouseout a pie slice.
+                        function mouseout(d){
+                            // call the update function of histogram with all data.
+                            hG.update(fData.map(function(v){
+                                return [v.State,v.total];}), barColor);
+                        }
+                        // Animating the pie-slice requiring a custom function which specifies
+                        // how the intermediate paths should be drawn.
+                        function arcTween(a) {
+                            var i = d3.interpolate(this._current, a);
+                            this._current = i(0);
+                            return function(t) { return arc(i(t));    };
+                        }
+                        return pC;
+                    }
+
+                    // function to handle legend.
+                    function legend(lD){
+                        var leg = {};
+
+                        // create table for legend.
+                        var legend = d3.select(id).append("table").attr('class','legend').attr("id","tableDashboard");
+
+                        // create one row per segment.
+                        var tr = legend.append("tbody").selectAll("tr").data(lD).enter().append("tr");
+
+                        // create the first column for each segment.
+                        tr.append("td").append("svg").attr("width", '16').attr("height", '16').append("rect")
+                            .attr("width", '16').attr("height", '16')
+                            .attr("fill",function(d){ return segColor(d.type); });
+
+                        // create the second column for each segment.
+                        tr.append("td").text(function(d){ return d.type;});
+
+                        // create the third column for each segment.
+                        tr.append("td").attr("class",'legendFreq')
+                            .text(function(d){ return d3.format(",")(d.freq);});
+
+                        // create the fourth column for each segment.
+                        tr.append("td").attr("class",'legendPerc')
+                            .text(function(d){ return getLegend(d,lD);});
+
+                        // Utility function to be used to update the legend.
+                        leg.update = function(nD){
+                            // update the data attached to the row elements.
+                            var l = legend.select("tbody").selectAll("tr").data(nD);
+
+                            // update the frequencies.
+                            l.select(".legendFreq").text(function(d){ return d3.format(",")(d.freq);});
+
+                            // update the percentage column.
+                            l.select(".legendPerc").text(function(d){ return getLegend(d,nD);});
+                        };
+
+                        function getLegend(d,aD){ // Utility function to compute percentage.
+                            return d3.format("%")(d.freq/d3.sum(aD.map(function(v){ return v.freq; })));
+                        }
+
+                        return leg;
+                    }
+
+                    // calculate total frequency by segment for all state.
+                    var tF = ['low','mid','high'].map(function(d){
+                        return {type:d, freq: d3.sum(fData.map(function(t){ return t.freq[d];}))};
+                    });
+
+                    // calculate total frequency by state for all segment.
+                    var sF = fData.map(function(d){return [d.State,d.total];});
+
+                    var hG = histoGram(sF), // create the histogram.
+                        pC = pieChart(tF), // create the pie-chart.
+                        leg= legend(tF);  // create the legend.
+                }
+            </script>
+
+        </div>
+        </td>
+        </tr>
+        </table>
+        <div id="dvcollapsibletree">
+            <script>
+                function displayCollapsibleTree(Country, wineName)
+                {
+                    /*$('html,body').animate({
+                        scrollTop: 300},'slow');*/
+                    if (Country!=null)
+                    {
+
+                        var elem = document.getElementById('SVG_collapsibletree');
+                        if (elem !=null)
+                        {
+                            elem.parentNode.removeChild(elem);
+                        }
+
+                        var margin = {top: 20, right: 120, bottom: 20, left: 120},
+                            width = 960 - margin.right - margin.left,
+                            height = 800 - margin.top - margin.bottom;
+
+                        var i = 0,
+                            duration = 750,
+                            root;
+
+                        var tree = d3.layout.tree()
+                            .size([height, width]);
+
+                        var diagonal = d3.svg.diagonal()
+                            .projection(function(d) { return [d.y, d.x]; });
+
+                        var svg = d3.select("#dvcollapsibletree").append("svg")
+                            .attr("width", width + margin.right + margin.left)
+                            .attr("height", height + margin.top + margin.bottom)
+                            .attr("id","SVG_collapsibletree")
+                            .append("g")
+                            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                        var opts = {
+                            lines: 13, // The number of lines to draw
+                            length: 28, // The length of each line
+                            width: 14, // The line thickness
+                            radius: 42, // The radius of the inner circle
+                            scale: 1, // Scales overall size of the spinner
+                            corners: 1, // Corner roundness (0..1)
+                            color: '#0b0707', // #rgb or #rrggbb or array of colors
+                            opacity: 0.25, // Opacity of the lines
+                            rotate: 0, // The rotation offset
+                            direction: 1, // 1: clockwise, -1: counterclockwise
+                            speed: 1, // Rounds per second
+                            trail: 60, // Afterglow percentage
+                            fps: 20, // Frames per second when using setTimeout() as a fallback in IE 9
+                            zIndex: 2e9, // The z-index (defaults to 2000000000)
+                            className: 'spinner', // The CSS class to assign to the spinner
+                            top: '50%', // Top position relative to parent
+                            left: '50%', // Left position relative to parent
+                            shadow: false, // Whether to render a shadow
+                            position: 'absolute' // Element positioning
+                        };
+
+                        // loader settings
+                        var target = document.getElementById('dvcollapsibletree');
+                        // trigger loader
+                        var spinner = new Spinner(opts).spin(target);
+
+                        var jsonStr= "http://127.0.0.1:8004/getCollapsibleTree/" + Country +"/test/"+ wineName;
+                        d3.json(jsonStr, function(error, flare) {
+                            if (error) throw error;
+
+                            // stop the loader
+                            spinner.stop();
+
+                            root = flare;
+                            root.x0 = height / 2;
+                            root.y0 = 0;
+
+                            function collapse(d) {
+                                if (d.children) {
+                                    d._children = d.children;
+                                    d._children.forEach(collapse);
+                                    d.children = null;
+                                }
+                            }
+
+                            root.children.forEach(collapse);
+                            update(root);
+                        });
+
+                        d3.select(self.frameElement).style("height", "800px");
+
+                        function update(source) {
+
+                            // Compute the new tree layout.
+                            var nodes = tree.nodes(root).reverse(),
+                                links = tree.links(nodes);
+
+                            // Normalize for fixed-depth.
+                            nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+                            // Update the nodes…
+                            var node = svg.selectAll("g.node")
+                                .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+                            // Enter any new nodes at the parent's previous position.
+                            var nodeEnter = node.enter().append("g")
+                                .attr("class", "node")
+                                .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+                                .on("click", click);
+
+                            nodeEnter.append("circle")
+                                .attr("r", 1e-6)
+                                .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+                            nodeEnter.append("text")
+                                .attr("x", function(d) { return d.children || d._children ? -10 : 10; })
+                                .attr("dy", ".35em")
+                                .attr("text-anchor", function(d) { return d.children || d._children ? "end" : "start"; })
+                                .text(function(d) { return d.name; })
+                                .style("fill-opacity", 1e-6);
+
+                            // Transition nodes to their new position.
+                            var nodeUpdate = node.transition()
+                                .duration(duration)
+                                .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; });
+
+                            nodeUpdate.select("circle")
+                                .attr("r", 4.5)
+                                .style("fill", function(d) { return d._children ? "lightsteelblue" : "#fff"; });
+
+                            nodeUpdate.select("text")
+                                .style("fill-opacity", 1);
+
+                            // Transition exiting nodes to the parent's new position.
+                            var nodeExit = node.exit().transition()
+                                .duration(duration)
+                                .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+                                .remove();
+
+                            nodeExit.select("circle")
+                                .attr("r", 1e-6);
+
+                            nodeExit.select("text")
+                                .style("fill-opacity", 1e-6);
+
+                            // Update the links…
+                            var link = svg.selectAll("path.link")
+                                .data(links, function(d) { return d.target.id; });
+
+                            // Enter any new links at the parent's previous position.
+                            link.enter().insert("path", "g")
+                                .attr("class", "link")
+                                .style("stroke", function(d){
+                                    console.log(d.target.type);
+                                    if(d.target.type == "min"){
+                                        return "#807dba"
+                                    }else if(d.target.type =="median"){
+                                        return "#e08214"
+                                    }else if(d.target.type == "max"){
+                                        return "#41ab5d"
+                                    }else if(d.target.type == "many"){
+                                        return "red"
+                                    }
+                                })
+                                .style("stroke-width", function(d){
+                                    console.log(d.target.type);
+                                    if(d.target.type == "none"){
+                                        return "1"
+                                    }else {
+                                        return "2"
+                                    }
+                                })
+                                .attr("d", function(d) {
+                                    var o = {x: source.x0, y: source.y0};
+                                    return diagonal({source: o, target: o});
+                                });
+
+                            // Transition links to their new position.
+                            link.transition()
+                                .duration(duration)
+                                .attr("d", diagonal);
+
+                            // Transition exiting nodes to the parent's new position.
+                            link.exit().transition()
+                                .duration(duration)
+                                .attr("d", function(d) {
+                                    var o = {x: source.x, y: source.y};
+                                    return diagonal({source: o, target: o});
+                                })
+                                .remove();
+
+                            // Stash the old positions for transition.
+                            nodes.forEach(function(d) {
+                                d.x0 = d.x;
+                                d.y0 = d.y;
+                            });
+                        }
+
+                        // Toggle children on click.
+                        function click(d) {
+                            if (d.children) {
+                                d._children = d.children;
+                                d.children = null;
+                            } else {
+                                d.children = d._children;
+                                d._children = null;
+                            }
+                            update(d);
+                        }
+                    }
+                }
+
+            </script>
+
+        </div>
+        </div>
+
+    </section> <!-- /.clients -->
+
+    <section id="contact" class="contact">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-8 col-md-offset-2">
+
+                    <!-- Section title -->
+                    <h2 class="title -black">Contact us</h2>
+
+                    <span class="subtitle h3 -yellow">Sure...We can take some time for chat</span>
+
+                </div>
+
+            </div> <!-- /.row -->
+
+            <div class="row box-container">
+
+                <div class="col-md-10 col-md-offset-1">
+
+                    <form class="contact-form">
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+
+                                <div class="col-sm-6">
+
+                                    <label class="sr-only" for="Name">Name</label>
+                                    <input type="text" name="name" id="Name" class="name" placeholder="Name" required>
+
+                                </div>
+
+                                <div class="col-sm-6">
+
+                                    <label class="sr-only" for="Email">Email</label>
+                                    <input type="email" name="email" id="Email" class="email" placeholder="Mail" required>
+
+                                </div>
+
+                            </div> <!-- /.row -->
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <label class="sr-only" for="Subject">Subject</label>
+                                    <input type="text" name="subject" id="Subject" class="subject" placeholder="Subject" required>
+
+                                </div>
+
+                            </div> <!-- /.row -->
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <label class="sr-only" for="Message">Message</label>
+                                    <textarea name="message" id="Message" class="message" rows="7" placeholder="Message" required></textarea>
+
+                                </div>
+
+                            </div> <!-- /.row -->
+
+                            <div class="row">
+
+                                <div class="col-sm-12">
+
+                                    <button type="submit" class="btn btn-submit">Send</button>
+
+                                </div>
+
+                            </div> <!-- /.row -->
+
+                        </div> <!-- /.container -->
+
+                    </form>	<!-- /.contact-form -->
+
+                </div>
+
+            </div> <!-- /.row -->
+
+        </div> <!-- /.container -->
+
+    </section> <!-- /.contact -->
+
+</main>
+
+<footer id="footer" class="footer">
+    <!-- Section title -->
+    <h2 class="sr-only">Footer</h2>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-sm-6">
+                <small class="copyright -yellow"> © <span id="year">2016</span> -  YellowMoon All Right Reserved</small>
+            </div>
+
+            <div class="col-sm-6">
+                <ul class="social-list">
+                    <li><a href="javascript:void(0)"><span class="icon icon-facebook" aria-hidden="true"></span></a></li>
+                    <li><a href="javascript:void(0)"><span class="icon icon-twitter" aria-hidden="true"></span></a></li>
+                    <li><a href="javascript:void(0)"><span class="icon icon-dribbble" aria-hidden="true"></span></a></li>
+                    <li><a href="javascript:void(0)"><span class="icon icon-google" aria-hidden="true"></span></a></li>
+                    <li><a href="javascript:void(0)"><span class="icon icon-youtube" aria-hidden="true"></span></a></li>
+                </ul>
+            </div>
+
+        </div> <!-- /.row -->
+
+    </div> <!-- /.container -->
+
+</footer>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../static/js/libs/smooth-scroll.min.js"></script>
+<script type="text/javascript" src="../static/js/libs/modernizr.mq.js"></script>
+
+<!-- Latest compiled and minified JavaScript Bootstrap-->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<!-- Custom JS -->
+<script type="text/javascript" src="../static/js/custom.js"></script>
+
+</body>
+</html>
