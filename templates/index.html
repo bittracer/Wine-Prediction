@@ -25,9 +25,9 @@
     {#    <script src="../static/js/d3.v3.min.js"></script>#}
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="../static/js/d3cloud.js"></script>
+    {# <script src="../static/js/d3cloud.js"></script>#}
 
-    {#    <script src="../static/js/d3.layout.cloud.js"></script>#}
+    <script src="../static/js/d3.layout.cloud.js"></script>
 
     <script>
         var words=""
@@ -264,7 +264,7 @@
 
             <span class="h1 -yellow">We help you to choose your wine!</span>
 
-            <a href="#about" class="button">Explore</a>
+            <a href="#about" class="button smoothScroll">Explore</a>
 
             <a href="#about" class="chevron-down smoothScroll">
                 <img class="icon" src="../static/img/chevron_down_white.svg" title="Scroll down" alt="Chevron pointing downwards">
@@ -303,7 +303,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="active"><a class="smoothScroll" href="#home">Home <span class="sr-only">(current)</span></a></li>
                         <li><a class="smoothScroll" href="#about">About us</a></li>
-                        <li><a class="smoothScroll" href="#portfolio">Prediction</a></li>
+                        <li><a class="smoothScroll" href="#Prediction">Prediction</a></li>
                         <li><a class="smoothScroll" href="#clients">Insights</a></li>
                     </ul>
 
@@ -321,7 +321,7 @@
 
             <div class="row">
 
-                <div class="col-md-8 col-md-offset-2">
+                <div class="col-md-8 col-md-offset-2" style="margin-top:3%">
 
                     <!-- Section title -->
                     <h2 class="title -black">About us</h2>
@@ -369,8 +369,9 @@
                     </div> <!-- /.about-box -->
 
                 </div>
+            </div>
 
-                <section id="portfolio" class="portfolio">
+                <section id="Prediction" class="Prediction">
 
                     <div class="container">
 
@@ -422,6 +423,7 @@
                                         .attr("width", width + margin.left + margin.right)
                                         .attr("height", height + margin.top + margin.bottom)
                                         .attr("id","bagg")
+                                        .attr("transform","translate(-40,-250)")
                                         .append("g")
                                         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -473,8 +475,9 @@
 
                     <div class ="row">
 
-                        <div class="col-sm-12" align="center">
+                        <div class="col-sm-12" align="center" style="margin-top:-20%">
                             <p id="selectedWords" class="lead"></p>
+
                             <button type="button" width="150px" class="btn btn-warning" onclick="showBarChart()">I can't wait :)</button>
                         </div>
 
@@ -636,7 +639,7 @@
                 <span class="sr-only">Load more...</span>
             </a>
         </div>
-    </section> <!-- /.portfolio -->
+    </section> <!-- /.Prediction -->
 
     {#    <section id="clients">#}
     {##}
@@ -1866,7 +1869,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../static/js/libs/smooth-scroll.min.js"></script>
 <script type="text/javascript" src="../static/js/libs/modernizr.mq.js"></script>
-
+<script src="../static/js/d3.layout.cloud.js"></script>
 <!-- Latest compiled and minified JavaScript Bootstrap-->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
