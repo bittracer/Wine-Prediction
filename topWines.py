@@ -10,7 +10,7 @@ from sklearn.naive_bayes import MultinomialNB
 
 app = Flask(__name__)
 
-df = pd.read_csv("/Users/bharatjain/Desktop/Visual_Analytics/wine.csv")
+df = pd.read_csv("C:\\Users\\HP15\\PycharmProjectsV6\\Visual_Analytics\\wine.csv")
 df['variety'] = df['variety'].str.replace(r'[^\x00-\x7f]', r'')
 df.drop(df.columns[[0]], axis=1, inplace=True)
 dedupped_df = df.drop_duplicates(subset='description')
@@ -74,6 +74,30 @@ def getWineCountries(wine):
     response = Response(response=finaljson, status=200, mimetype="application/json")
     return response
 
+@app.route("/getTreeMap/<Country>/test/<wineName>")
+def getTreeMap(Country, wineName):
+    d = {"name": Country, "children": []}
+    dedupped_df1 = dedupped_df.loc[df['variety'] == wineName]
+    df2 = dedupped_df1.loc[df['country'] == Country]
+
+    province_index = pd.DataFrame(df2.province.value_counts().reset_index())
+    provinceList = province_index["index"].tolist()
+    for province in provinceList:
+        # Add new element
+        price_row = df2.loc[df2['province'] == province]
+        price = price_row.groupby('province')['price'].mean()
+        d["children"].append({"name": province, "children": []})
+        # Get added element
+        element = d["children"][-1]
+        province_reference = element
+        dfprovince = df2.loc[df2['province'] == province]
+        regions = pd.DataFrame(dfprovince.region_1.value_counts().reset_index())
+        for index, region in regions.iterrows():
+            price_row = dfprovince.loc[dfprovince['region_1'] == region['index']]
+            price = price_row.groupby('region_1')['price'].mean()
+            element["children"].append({"name": region['index'], "size": int(price[0])})
+
+    return json.dumps(d, sort_keys=False, indent=2)
 
 # http://127.0.0.1:8003/getCollapsibleTree/US
 @app.route("/getCollapsibleTree/<Country>/test/<wineName>")
