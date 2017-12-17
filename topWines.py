@@ -1,6 +1,8 @@
 import pandas as pd
 import json
 import numpy
+import os
+import math
 from flask import Flask, app, render_template, request, Response
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import LabelEncoder
@@ -12,8 +14,8 @@ import os
 
 app = Flask(__name__)
 
-currentPath = os.path.dirname(os.path.abspath(__file__))
 
+currentPath = os.path.dirname(os.path.abspath(__file__))
 df = pd.read_csv(currentPath+"/wine.csv")
 df['variety'] = df['variety'].str.replace(r'[^\x00-\x7f]', r'')
 df.drop(df.columns[[0]], axis=1, inplace=True)
@@ -41,7 +43,6 @@ x_train, x_test, y_train, y_test = train_test_split(x2, y, test_size=0, random_s
 nb = MultinomialNB()
 nb.fit(x_train, y_train)
 ################# getMLBarChart#######################
-
 
 # http://127.0.0.1:8003/getTopWines/30
 @app.route("/getTopWines/<int:Count>")
@@ -99,7 +100,11 @@ def getTreeMap(Country, wineName):
         for index, region in regions.iterrows():
             price_row = dfprovince.loc[dfprovince['region_1'] == region['index']]
             price = price_row.groupby('region_1')['price'].mean()
-            element["children"].append({"name": region['index'], "size": int(price[0])})
+            if math.isnan(price[0]):
+                element["children"].append({"name": region['index'], "size": 0})
+            else:
+                element["children"].append({"name": region['index'], "size": int(price[0])})
+
 
     return json.dumps(d, sort_keys=False, indent=2)
 

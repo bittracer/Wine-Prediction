@@ -108,5 +108,5 @@ $(function(){
 	var year = currentTime.getFullYear();
 	$("#year").text(year);
 
-
 });
+
