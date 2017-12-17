@@ -7,10 +7,14 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.feature_extraction import text
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
+import os
+
 
 app = Flask(__name__)
 
-df = pd.read_csv("C:\\Users\\HP15\\PycharmProjectsV6\\Visual_Analytics\\wine.csv")
+currentPath = os.path.dirname(os.path.abspath(__file__))
+
+df = pd.read_csv(currentPath+"/wine.csv")
 df['variety'] = df['variety'].str.replace(r'[^\x00-\x7f]', r'')
 df.drop(df.columns[[0]], axis=1, inplace=True)
 dedupped_df = df.drop_duplicates(subset='description')
