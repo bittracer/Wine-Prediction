@@ -1,7 +1,6 @@
 import pandas as pd
 import json
 import numpy
-import os
 import math
 from flask import Flask, app, render_template, request, Response
 from sklearn.feature_extraction.text import CountVectorizer
@@ -11,40 +10,48 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 import os
 
-
+# Initiating flask
 app = Flask(__name__)
 
 
+# Getting current path
 currentPath = os.path.dirname(os.path.abspath(__file__))
+
+# Reading CSV
 df = pd.read_csv(currentPath+"/wine.csv")
 df['variety'] = df['variety'].str.replace(r'[^\x00-\x7f]', r'')
-df.drop(df.columns[[0]], axis=1, inplace=True)
+
+# Delete duplicate rows based on the description
 dedupped_df = df.drop_duplicates(subset='description')
 varieties = dedupped_df['variety'].value_counts()
 
-
-################# getMLBarChart#######################
-
+# Get names of top 30 wines
 top_wines_df = dedupped_df.loc[dedupped_df['variety'].isin(varieties.axes[0][:30])]
-# our labels, as numbers.
+
+# Convert labels to numbers.
 le = LabelEncoder()
 y = le.fit_transform(top_wines_df['variety'])
+
+# remove stop words i.e., name of the wines
 wine_stop_words = []
 for variety in top_wines_df['variety'].unique():
     for word in variety.split(' '):
         wine_stop_words.append(word.lower())
 wine_stop_words = pd.Series(data=wine_stop_words).unique()
 stop_words = text.ENGLISH_STOP_WORDS.union(wine_stop_words)
+
+# Build Document-term matrix
 vect = CountVectorizer(stop_words=stop_words)
 x2 = vect.fit_transform(top_wines_df['description'])
 
+# Split
 x_train, x_test, y_train, y_test = train_test_split(x2, y, test_size=0, random_state=10)
 
+# Train the model
 nb = MultinomialNB()
 nb.fit(x_train, y_train)
-################# getMLBarChart#######################
 
-# http://127.0.0.1:8003/getTopWines/30
+# Get the list of top wines based on count parameter
 @app.route("/getTopWines/<int:Count>")
 def getTopWines(Count):
     # ditch that unnamed row numbers column
@@ -57,7 +64,7 @@ def getTopWines(Count):
     return json_str
 
 
-# http://127.0.0.1:8003/getWineCountries/point noir
+# Get the countries related to wine
 @app.route("/getWineCountries/<wine>")
 def getWineCountries(wine):
 
@@ -79,6 +86,7 @@ def getWineCountries(wine):
     response = Response(response=finaljson, status=200, mimetype="application/json")
     return response
 
+# Get data for Tree map
 @app.route("/getTreeMap/<Country>/test/<wineName>")
 def getTreeMap(Country, wineName):
     d = {"name": Country, "children": []}
@@ -108,7 +116,7 @@ def getTreeMap(Country, wineName):
 
     return json.dumps(d, sort_keys=False, indent=2)
 
-# http://127.0.0.1:8003/getCollapsibleTree/US
+# Get data for collapsible tree
 @app.route("/getCollapsibleTree/<Country>/test/<wineName>")
 def getCollapsibleTree(Country, wineName):
     d = {"name": Country, "children": []}
@@ -217,7 +225,7 @@ def getCollapsibleTree(Country, wineName):
 
     return json.dumps(d, sort_keys=False, indent=2)
 
-# http://127.0.0.1:8003/getMLBarChart/red blueberry
+# Get prediction results to display the bar chart
 @app.route("/getMLBarChart/<textData>")
 def getMLBarChart(textData):
 

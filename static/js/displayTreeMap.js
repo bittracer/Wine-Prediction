@@ -18,7 +18,7 @@ function displayTreeMap(Country, wineName){
         var note = document.createElement('p');// make a hr
         note.id = "note";
         note.align = "center";
-        note.innerHTML = "<b> Note: </b> Different colors refers different provinces. Size of a rectangle denotes price, <br/> the text in the rectangle is the winery region name.";
+        note.innerHTML = "<b> Note: </b> Different colors refers different provinces. Size of a rectangle denotes price, <br/> the text in the rectangle is the winery region name. (Hover to get more details)";
         document.getElementById('Treemap').appendChild(note) // append a paragraph contain note
     }
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
