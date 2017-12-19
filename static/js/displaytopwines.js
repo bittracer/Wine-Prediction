@@ -1,3 +1,4 @@
+//this function calls the top wines in the dashboard containing barchart and piechart format.
 function displaytopwines()
 {
     var elem = document.getElementById('winesList');
@@ -63,6 +64,7 @@ function displaytopwines()
     }
 }
 
+//this function call the dashboard.
 function callBarChart(obj)
 {
 

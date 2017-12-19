@@ -12,6 +12,7 @@ function showBarChart(){
     }
     var div = d3.select("#ShowMLVisualization").append("div").attr("class", "toolTip");
 
+    //the final link to api.
     var jsonStr = "http://127.0.0.1:8004/getMLBarChart/" + words;
 
     words = "";
@@ -19,6 +20,8 @@ function showBarChart(){
 
     var tooltip = d3.select("body").append("div").attr("class", "toolTip");
 
+    //add a spinner (loader) for displaying data loadin
+    ////Available: http://bl.ocks.org/eesur/cf81a5ea738f85732707
     var opts = {
         lines: 13, // The number of lines to draw
         length: 28, // The length of each line
@@ -49,6 +52,7 @@ function showBarChart(){
 
         spinner.stop();
 
+        //read the data from the api call
         data.forEach(function(d) {
             d.wine = d.wine;
             d.probability = +d.probability;

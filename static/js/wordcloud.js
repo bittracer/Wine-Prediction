@@ -13,6 +13,7 @@ var margin = {top: 20, right: 20, bottom: 40, left: 20},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
+//read the data from csv
 d3.csv("/static/data.csv", function(error, data) {
 
     var categories = d3.keys(d3.nest().key(function(d) { return d.category; }).map(data));
@@ -31,6 +32,7 @@ d3.csv("/static/data.csv", function(error, data) {
         .on("end", draw)
         .start();
 
+    //create an empty svg
     var svg = d3.select('#bagword').append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)

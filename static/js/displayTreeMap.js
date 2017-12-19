@@ -11,6 +11,16 @@ function displayTreeMap(Country, wineName){
             elem.parentNode.removeChild(elem);
         }
 
+    //add a note to read the tree map
+    var elemNote = document.getElementById('note');
+    if (elemNote ==null)
+    {
+        var note = document.createElement('p');// make a hr
+        note.id = "note";
+        note.align = "center";
+        note.innerHTML = "<b> Note: </b> Different colors refers different provinces. Size of a rectangle denotes price, <br/> the text in the rectangle is the winery region name.";
+        document.getElementById('Treemap').appendChild(note) // append a paragraph contain note
+    }
     var margin = {top: 20, right: 120, bottom: 20, left: 120},
             width = 960 - margin.right - margin.left,
             height = 800 - margin.top - margin.bottom;
@@ -32,8 +42,10 @@ function displayTreeMap(Country, wineName){
         .round(true)
         .paddingInner(1);
 
+    // create final link to tree map
     var jsonStr= "http://127.0.0.1:8004/getTreeMap/" + Country +"/test/"+ wineName
 
+    //read json
     d3version4.json(jsonStr, function(error, data) {
         if (error) throw error;
         var root = d3version4.hierarchy(data)

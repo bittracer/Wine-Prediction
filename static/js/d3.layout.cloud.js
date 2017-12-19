@@ -1,5 +1,8 @@
+//*********************************************************************************
 // Word cloud layout by Jason Davies, http://www.jasondavies.com/word-cloud/
 // Algorithm due to Jonathan Feinberg, http://static.mrfeinberg.com/bv_ch03.pdf
+// Purpose: to understand the usage of wordcloud and how to use it in our project.
+//*********************************************************************************
 (function() {
 
 if (typeof define === "function" && define.amd) define(["d3"], cloud);

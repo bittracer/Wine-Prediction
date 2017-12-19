@@ -14,6 +14,7 @@ function displayCollapsibleTree(Country, wineName)
                                 {
                                     elem.parentNode.removeChild(elem);
                                 }
+                                //add a line break and a note to read collapsible tree
                                 var elemLineBreak = document.getElementById('linebreak');
                                 if (elem ==null)
                                 {
@@ -21,6 +22,13 @@ function displayCollapsibleTree(Country, wineName)
                                     line.width = "1150px";
                                     line.id = "linebreak";
                                     document.getElementById('dvcollapsibletree').appendChild(line) // append a line break
+
+                                    var note = document.createElement('p');// make a hr
+                                    note.id = "note";
+                                    note.align = "center";
+                                    note.innerHTML = "<b> Collapsible tree hierarchy: </b> Country -> Province -> Region -> Winery -> Price";
+                                    document.getElementById('dvcollapsibletree').appendChild(note) // append a paragraph contain note
+
                                 }
                                 var margin = {top: 20, right: 120, bottom: 20, left: 120},
                                     width = 960 - margin.right - margin.left,
@@ -36,6 +44,7 @@ function displayCollapsibleTree(Country, wineName)
                                 var diagonal = d3.svg.diagonal()
                                     .projection(function(d) { return [d.y, d.x]; });
 
+                                //create an empty svg
                                 var svg = d3.select("#dvcollapsibletree").append("svg")
                                     .attr("width", width + margin.right + margin.left)
                                     .attr("height", height + margin.top + margin.bottom)
@@ -43,6 +52,8 @@ function displayCollapsibleTree(Country, wineName)
                                     .append("g")
                                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+                                //display loading timer (spinner)
+                                //Available: http://bl.ocks.org/eesur/cf81a5ea738f85732707
                                 var opts = {
                                     lines: 13, // The number of lines to draw
                                     length: 28, // The length of each line
