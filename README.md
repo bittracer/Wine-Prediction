@@ -1,6 +1,8 @@
 
 
-`This project was developed as a part of Visual analytics project at Dalhousie University. This web based tool developed using Python, Flask, HTML, CSS, JavaScript and Machine Learning algorithm. This tool will predict the Wines based on the selected taste, color, flavor, fragrance, type of fruit and <any other custom input>.`
+`This project was developed as a part of Visual analytics project at Dalhousie University.` 
+
+This web based tool is developed using Python, Flask, HTML, CSS, JavaScript and Machine Learning algorithm. This tool will predict the Wines based on the selected taste, color, flavor, fragrance, type of fruit and <any other custom input>. It also contains multiple D3.js visualization.
 
 How to run:
 
